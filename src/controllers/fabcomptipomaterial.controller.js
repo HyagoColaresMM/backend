@@ -30,7 +30,7 @@ const Editar =  (req, res) => {
 
     ServiceFabcompTipoMaterial.Editar(id, descricao)
     .then(() => {
-        res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
+        res.status(200).json({ message: 'TipoMaterial atualizado com sucesso' });
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -43,7 +43,7 @@ const Deletar =  (req, res) => {
 
     ServiceFabcompTipoMaterial.Deletar(id)
     .then(() => {
-        res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
+        res.status(200).json({ message: 'TipoMaterial atualizado com sucesso' });
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -59,9 +59,9 @@ const Deletar2 = (req, res) => {
             res.status(500).json(err);
         } else {
             if (result && result.length === 0) {
-                res.status(404).json({ message: "Grupo-Estoque não encontrado." });
+                res.status(404).json({ message: "TipoMaterial não encontrado." });
             } else {
-                res.status(200).json({ message: "Grupo-Estoque excluído com sucesso." });
+                res.status(200).json({ message: "TipoMaterial excluído com sucesso." });
             }
         }
     });
