@@ -10,6 +10,7 @@ import routeFabcompSg2Tm from "./routes/fabcompsg2tm.route.js";
 import routeFabcompTmSubgrupo1 from "./routes/fabcomptmsubgrupo1.route.js";
 import routeFabcompTmSubgrupo2 from "./routes/fabcomptmsubgrupo2.route.js";
 import routeFabcompTurnos from "./routes/fabcompturnos.route.js";
+import routeFolhaRubricas from "./routes/folharubricas.route.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/v1', routeFabcompSg2Tm)
 app.use('/v1', routeFabcompTmSubgrupo1)
 app.use('/v1', routeFabcompTmSubgrupo2)
 app.use('/v1', routeFabcompTurnos)
+app.use('/v1', routeFolhaRubricas)
 /* Thiago */
 
 const port = 5000;
