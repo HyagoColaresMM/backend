@@ -1,12 +1,14 @@
 import ServiceFabcompTurnos from '../services/fabcompturnos.service.js'
 
 const Listar = (req, res) => {
-    const turno = req.params.turno
-    const descricao = req.params.descricao
-    const horaInicialTurno = req.params.hora_inicial_turno
-    const horaFinalTurno = req.params.hora_final_turno
-    const horasProgramada = req.params.horas_programada
-    const tempoDeAlmoco = req.params.tempodealmoco
+    const turno = req.query.turno
+    const descricao = req.query.descricao
+    const horaInicialTurno = req.query.hora_inicial_turno
+    const horaFinalTurno = req.query.hora_final_turno
+    const horasProgramada = req.query.horas_programada
+    const tempoDeAlmoco = req.query.tempodealmoco
+
+    console.log('Parameters:', { turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco });
 
     ServiceFabcompTurnos.Listar(turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco)
         .then((result) => {
@@ -53,16 +55,16 @@ const Editar = (req, res) => {
 
 };
 
-const Deletar =  (req, res) => {
+const Deletar = (req, res) => {
     const id = parseInt(req.params.id, 10)
 
     ServiceFabcompTurnos.Deletar(id)
-    .then(() => {
-        res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+        .then(() => {
+            res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
+        })
+        .catch((err) => {
+            res.status(500).json(err);
+        });
 
 };
 

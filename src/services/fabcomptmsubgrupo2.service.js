@@ -96,7 +96,7 @@ const Inserir = (tipoMaterial, sg2Tm, callback) => {
 
 const Editar = (id, tipoMaterial, sg2Tm) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FABCOMP_TM_SUBGRUPO2 SET ';
+        let ssql = 'UPDATE FABCOMP_TM_SUBGRUPO2 SET UPDATED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
         if (tipoMaterial) {
@@ -149,7 +149,7 @@ const Editar = (id, tipoMaterial, sg2Tm) => {
 
 const Deletar = (id) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FABCOMP_TM_SUBGRUPO2F SET DELETED_AT = CURRENT_TIMESTAMP, ';
+        let ssql = 'UPDATE FABCOMP_TM_SUBGRUPO2 SET DELETED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
         ssql = ssql.slice(0, -2);

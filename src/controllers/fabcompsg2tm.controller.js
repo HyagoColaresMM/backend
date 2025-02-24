@@ -49,7 +49,7 @@ const Deletar =  (req, res) => {
         res.status(500).json(err);
       });
 
-};s
+};
 
 const Deletar2 = (req, res) => {
     let id = parseInt(req.params.id, 10);

@@ -1,8 +1,8 @@
 import ServiceFabcompTmSubgrupo1 from '../services/fabcomptmsubgrupo1.service.js';
 
 const Listar = (req, res) => {
-    const tipoMaterial = req.params.fabcomp_tipomaterial_id
-    const sg1Tm = req.params.fabcomp_sg1_tm_id
+    const tipoMaterial = req.query.fabcomp_tipomaterial_id
+    const sg1Tm = req.query.fabcomp_sg1_tm_id
 
     ServiceFabcompTmSubgrupo1.Listar(tipoMaterial, sg1Tm)
         .then((result) => {

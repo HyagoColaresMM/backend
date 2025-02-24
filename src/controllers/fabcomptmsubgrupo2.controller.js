@@ -1,8 +1,8 @@
 import ServiceFabcompTmSubgrupo2 from '../services/fabcomptmsubgrupo2.service.js';
 
 const Listar = (req, res) => {
-    const tipoMaterial = req.params.fabcomp_tipomaterial_id
-    const sg2Tm = req.params.fabcomp_sg2_tm_id
+    const tipoMaterial = req.query.fabcomp_tipomaterial_id
+    const sg2Tm = req.query.fabcomp_sg2_tm_id
 
     ServiceFabcompTmSubgrupo2.Listar(tipoMaterial, sg2Tm)
         .then((result) => {
@@ -33,7 +33,7 @@ const Editar =  (req, res) => {
 
     ServiceFabcompTmSubgrupo2.Editar(id, tipoMaterial, sg2Tm)
     .then(() => {
-        res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
+        res.status(200).json({ message: 'TmSubgrupo2 atualizado com sucesso' });
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -46,7 +46,7 @@ const Deletar =  (req, res) => {
 
     ServiceFabcompTmSubgrupo2.Deletar(id)
     .then(() => {
-        res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
+        res.status(200).json({ message: 'TmSubgrupo2 excluido com sucesso' });
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -62,9 +62,9 @@ const Deletar2 = (req, res) => {
             res.status(500).json(err);
         } else {
             if (result && result.length === 0) {
-                res.status(404).json({ message: "Grupo-Estoque não encontrado." });
+                res.status(404).json({ message: "TmSubgrupo2 não encontrado." });
             } else {
-                res.status(200).json({ message: "Grupo-Estoque excluído com sucesso." });
+                res.status(200).json({ message: "TmSubgrupo2 excluído com sucesso." });
             }
         }
     });

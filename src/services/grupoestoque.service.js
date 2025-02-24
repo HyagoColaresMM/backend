@@ -8,7 +8,7 @@ import {
 const Listar = (descricao) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM GRUPO_ESTOQUE WHERE DELETED_AT IS NULL ';
-        const params = [];
+        let params = [];
 
         if (descricao) {
             ssql += 'AND DESCRICAO = ?';
