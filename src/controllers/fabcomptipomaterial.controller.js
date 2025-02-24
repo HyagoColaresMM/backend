@@ -13,10 +13,9 @@ const Listar = (req, res) => {
 };
 
 const Inserir = (req, res) => {
-    let id = parseInt(req.body.id, 10)
     let descricao = req.body.descricao
 
-    ServiceFabcompTipoMaterial.Inserir(id, descricao, (err, result) => {
+    ServiceFabcompTipoMaterial.Inserir(descricao, (err, result) => {
         if (err) {
             return res.status(500).json(err);
         }

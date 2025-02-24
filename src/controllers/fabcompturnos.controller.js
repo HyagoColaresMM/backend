@@ -18,7 +18,6 @@ const Listar = (req, res) => {
 };
 
 const Inserir = (req, res) => {
-    const id = parseInt(req.body.id, 10)
     const turno = req.body.turno
     const descricao = req.body.descricao
     const horaInicialTurno = req.body.hora_inicial_turno
@@ -26,7 +25,7 @@ const Inserir = (req, res) => {
     const horasProgramada = req.body.horas_programada
     const tempoDeAlmoco = req.body.tempodealmoco
 
-    ServiceFabcompTurnos.Inserir(id, turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco, (err, result) => {
+    ServiceFabcompTurnos.Inserir(turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco, (err, result) => {
         if (err) {
             return res.status(500).json(err);
         }

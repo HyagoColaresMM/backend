@@ -14,11 +14,10 @@ const Listar = (req, res) => {
 };
 
 const Inserir = (req, res) => {
-    const id = parseInt(req.body.id, 10)
     const tipoMaterial = req.body.fabcomp_tipomaterial_id
     const sg1Tm = req.body.fabcomp_sg1_tm_id
 
-    ServiceFabcompTmSubgrupo1.Inserir(id, tipoMaterial, sg1Tm, (err, result) => {
+    ServiceFabcompTmSubgrupo1.Inserir(tipoMaterial, sg1Tm, (err, result) => {
         if (err) {
             return res.status(500).json(err);
         }

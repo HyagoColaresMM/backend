@@ -7,7 +7,7 @@ import {
 
 const Listar = (descricao) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, DESCRICAO FROM SUBGRUPO_ESTOQUE WHERE ID > 0 ';
+        let ssql = 'SELECT ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM SUBGRUPO_ESTOQUE WHERE ID > 0 ';
         const params = [];
 
         if (descricao) {
@@ -41,17 +41,57 @@ const Listar = (descricao) => {
     });
 };
 
-const Inserir = (id, descricao, callback) => {
-    let params = [id, descricao];
-    let ssql =
-        "INSERT INTO SUBGRUPO_ESTOQUE(ID, DESCRICAO) VALUES(?, ?) RETURNING ID";
+const Inserir = (descricao, callback) => {
+    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM SUBGRUPO_ESTOQUE";
+    
+    firebird.attach(dbOptions, (err, db) => {
+        if (err) {
+            return callback({ error: 'Erro ao conectar no banco de dados', details: err });
+        }
 
-    executeQuery(ssql, params, callback);
+        db.query(ssqlMaxId, [], (err, result) => {
+            if (err) {
+                db.detach();
+                return callback({ error: 'Erro ao buscar o ID máximo', details: err });
+            }
+
+            let maxId = result[0].max_id || 0;
+            let newId = maxId + 1;
+            let params = [newId, descricao];
+            let ssqlInsert = "INSERT INTO SUBGRUPO_ESTOQUE(ID, DESCRICAO, CREATED_AT) VALUES(?, ?, CURRENT_TIMESTAMP) RETURNING ID";
+
+            db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
+                if (err) {
+                    db.detach();
+                    return callback({ error: 'Erro ao iniciar transação', details: err });
+                }
+
+                transaction.query(ssqlInsert, params, (err, result) => {
+                    if (err) {
+                        transaction.rollback();
+                        db.detach();
+                        return callback({ error: 'Erro ao inserir registro', details: err });
+                    }
+
+                    transaction.commit((err) => {
+                        if (err) {
+                            transaction.rollback();
+                            db.detach();
+                            return callback({ error: 'Erro ao cometer transação', details: err });
+                        }
+
+                        db.detach();
+                        callback(null, result);
+                    });
+                });
+            });
+        });
+    });
 };
 
 const Editar = (id, descricao) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE SUBGRUPO_ESTOQUE SET ';
+        let ssql = 'UPDATE SUBGRUPO_ESTOQUE SET UPDATED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
         if (descricao) {

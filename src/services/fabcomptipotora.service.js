@@ -7,7 +7,7 @@ import {
 
 const Listar = async (descricao) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, DESCRICAO FROM FABCOMP_TIPO_TORA WHERE ID > 0 ';
+        let ssql = 'SELECT ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM FABCOMP_TIPO_TORA WHERE ID > 0 ';
         const params = [];
 
         if (descricao) {
@@ -58,7 +58,7 @@ const Inserir = (descricao, callback) => {
             let maxId = result[0].max_id || 0;
             let newId = maxId + 1;
             let params = [newId, descricao];
-            let ssqlInsert = "INSERT INTO FABCOMP_TIPO_TORA(ID, DESCRICAO) VALUES(?, ?) RETURNING ID";
+            let ssqlInsert = "INSERT INTO FABCOMP_TIPO_TORA(ID, DESCRICAO, CREATED_AT) VALUES(?, ?, CURRENT_TIMESTAMP) RETURNING ID";
 
             db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
                 if (err) {
@@ -91,7 +91,7 @@ const Inserir = (descricao, callback) => {
 
 const Editar = (id, descricao) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FABCOMP_TIPO_TORA SET ';
+        let ssql = 'UPDATE FABCOMP_TIPO_TORA SET UPDATED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
         if (descricao) {
