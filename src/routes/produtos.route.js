@@ -4,12 +4,12 @@ import ControllerFabcompTipoTora from "../controllers/fabcomptipotora.controller
 const routeFabcompTipoTora = Router()
 
 // GET
-routeFabcompTipoTora.get("/tipo-tora", ControllerFabcompTipoTora.Listar);
+routeFabcompTipoTora.get("/tipotora", ControllerFabcompTipoTora.Listar);
 // POST
-routeFabcompTipoTora.post("/tipo-tora", ControllerFabcompTipoTora.Inserir);
+routeFabcompTipoTora.post("/tipotora", ControllerFabcompTipoTora.Inserir);
 // UPDATE
-routeFabcompTipoTora.put("/tipo-tora/:id", ControllerFabcompTipoTora.Editar);
+routeFabcompTipoTora.put("/tipotora/:id", ControllerFabcompTipoTora.Editar);
 // DELETE
-routeFabcompTipoTora.delete("/tipo-tora/:id", ControllerFabcompTipoTora.Deletar);
+routeFabcompTipoTora.delete("/tipotora/:id", ControllerFabcompTipoTora.Deletar);
 
 export default routeFabcompTipoTora

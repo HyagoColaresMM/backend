@@ -4,12 +4,12 @@ import ControllerSubGrupoEstoque from "../controllers/subgrupoestoque.controller
 const routeSubGrupoEstoque = Router()
 
 // GET
-routeSubGrupoEstoque.get("/subgrupo-estoque", ControllerSubGrupoEstoque.Listar);
+routeSubGrupoEstoque.get("/subgrupoestoque", ControllerSubGrupoEstoque.Listar);
 // POST
-routeSubGrupoEstoque.post("/subgrupo-estoque", ControllerSubGrupoEstoque.Inserir);
+routeSubGrupoEstoque.post("/subgrupoestoque", ControllerSubGrupoEstoque.Inserir);
 // UPDATE
-routeSubGrupoEstoque.put("/subgrupo-estoque/:id", ControllerSubGrupoEstoque.Editar);
+routeSubGrupoEstoque.put("/subgrupoestoque/:id", ControllerSubGrupoEstoque.Editar);
 // DELETE
-routeSubGrupoEstoque.delete("/subgrupo-estoque/:id", ControllerSubGrupoEstoque.Deletar);
+routeSubGrupoEstoque.delete("/subgrupoestoque/:id", ControllerSubGrupoEstoque.Deletar);
 
 export default routeSubGrupoEstoque

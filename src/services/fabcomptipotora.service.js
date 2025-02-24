@@ -139,7 +139,7 @@ const Editar = (id, descricao) => {
 
 const Deletar = (id, callback) => {
     let params = [id]
-    let ssql = "DELETE FROM FABCOMP_TIPO_TORA WHERE ID = ? "; //AND DELETED_AT = ''
+    let ssql = "DELETE FROM FABCOMP_TIPO_TORA WHERE ID = ? "; // AND DELETED_AT = CURRENT_TIMESTAMP
 
     executeQuery(ssql, params, callback)
 };
