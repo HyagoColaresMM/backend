@@ -53,7 +53,20 @@ const Editar = (req, res) => {
 
 };
 
-const Deletar = (req, res) => {
+const Deletar =  (req, res) => {
+    const id = parseInt(req.params.id, 10)
+
+    ServiceFabcompTurnos.Deletar(id)
+    .then(() => {
+        res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+
+};
+
+const Deletar2 = (req, res) => {
     let id = parseInt(req.params.id, 10);
 
     ServiceFabcompTurnos.Deletar(id, (err, result) => {

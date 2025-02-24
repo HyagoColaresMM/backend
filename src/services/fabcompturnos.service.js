@@ -7,7 +7,7 @@ import {
 
 const Listar = (turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, TURNO, DESCRICAO, HORA_INICIAL_TURNO, HORA_FINAL_TURNO, HORAS_PROGRAMADA, TEMPODEALMOCO, CREATED_AT, UPDATED_AT FROM FABCOMP_TURNOS WHERE ID > 0 ';
+        let ssql = 'SELECT ID, TURNO, DESCRICAO, HORA_INICIAL_TURNO, HORA_FINAL_TURNO, HORAS_PROGRAMADA, TEMPODEALMOCO, CREATED_AT, UPDATED_AT FROM FABCOMP_TURNOS WHERE DELETED_AT IS NULL ';
         let params = [];
 
         if (turno) {
@@ -192,7 +192,50 @@ const Editar = (id,  turno, descricao, horaInicialTurno, horaFinalTurno, horasPr
     });
 };
 
-const Deletar = (id, callback) => {
+const Deletar = (id) => {
+    return new Promise((resolve, reject) => {
+        let ssql = 'UPDATE FABCOMP_TURNOS SET DELETED_AT = CURRENT_TIMESTAMP, ';
+        const params = [];
+
+        ssql = ssql.slice(0, -2);
+
+        ssql += ' WHERE ID = ?';
+        params.push(id);
+
+        firebird.attach(dbOptions, (err, db) => {
+            if (err) {
+                return reject({ error: 'Erro ao conectar no banco de dados', details: err });
+            }
+
+            db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
+                if (err) {
+                    console.error('Erro ao iniciar transação:', err);
+                }
+
+                transaction.query(ssql, params, (err, result) => {
+                    if (err) {
+                        transaction.rollback();
+                        console.error('Erro ao excluir registro:', err);
+                        return reject({ error: 'Erro ao excluir registro', details: err });
+                    } else {
+                        transaction.commit((err) => {
+                            if (err) {
+                                transaction.rollback();
+                                console.error('Erro ao excluir dados:', err);
+                                return reject({ error: 'Erro ao excluir dados', details: err });
+                            } else {
+                                console.log('Registro excluido bem-sucedida!');
+                                resolve(result);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    });
+};
+
+const Deletar2 = (id, callback) => {
     let params = [id]
     let ssql = "DELETE FROM FABCOMP_TURNOS WHERE ID = ? "; //AND DELETED_AT = ''
 

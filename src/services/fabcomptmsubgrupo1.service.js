@@ -7,7 +7,7 @@ import {
 
 const Listar = async (tipoMaterial, sg1Tm) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG1_TM_ID, CREATED_AT, UPDATED_AT FROM FABCOMP_TM_SUBGRUPO1 WHERE ID > 0 ';
+        let ssql = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG1_TM_ID, CREATED_AT, UPDATED_AT FROM FABCOMP_TM_SUBGRUPO1 WHERE DELETED_AT IS NULL ';
         const params = [];
 
         if (tipoMaterial) {
@@ -147,7 +147,50 @@ const Editar = (id, tipoMaterial, sg1Tm) => {
     });
 };
 
-const Deletar = (id, callback) => {
+const Deletar = (id) => {
+    return new Promise((resolve, reject) => {
+        let ssql = 'UPDATE FABCOMP_TM_SUBGRUPO1 SET DELETED_AT = CURRENT_TIMESTAMP, ';
+        const params = [];
+
+        ssql = ssql.slice(0, -2);
+
+        ssql += ' WHERE ID = ?';
+        params.push(id);
+
+        firebird.attach(dbOptions, (err, db) => {
+            if (err) {
+                return reject({ error: 'Erro ao conectar no banco de dados', details: err });
+            }
+
+            db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
+                if (err) {
+                    console.error('Erro ao iniciar transação:', err);
+                }
+
+                transaction.query(ssql, params, (err, result) => {
+                    if (err) {
+                        transaction.rollback();
+                        console.error('Erro ao excluir registro:', err);
+                        return reject({ error: 'Erro ao excluir registro', details: err });
+                    } else {
+                        transaction.commit((err) => {
+                            if (err) {
+                                transaction.rollback();
+                                console.error('Erro ao excluir dados:', err);
+                                return reject({ error: 'Erro ao excluir dados', details: err });
+                            } else {
+                                console.log('Registro excluido bem-sucedida!');
+                                resolve(result);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    });
+};
+
+const Deletar2 = (id, callback) => {
     let params = [id]
     let ssql = "DELETE FROM FABCOMP_TM_SUBGRUPO1 WHERE ID = ? "; //AND DELETED_AT = ''
 
