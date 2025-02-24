@@ -13,10 +13,9 @@ const Listar = (req, res) => {
 };
 
 const Inserir = (req, res) => {
-    let id = parseInt(req.body.id, 10)
-    let descricao = req.body.descricao
+    const descricao = req.body.descricao;
 
-    ServiceGrupoEstoque.Inserir(id, descricao, (err, result) => {
+    ServiceFabcompTipoTora.Inserir(descricao, (err, result) => {
         if (err) {
             return res.status(500).json(err);
         }
@@ -29,7 +28,7 @@ const Editar =  (req, res) => {
     const id = parseInt(req.params.id, 10)
     const descricao = req.body.descricao
 
-    ServiceGrupoEstoque.Editar(id, descricao)
+    ServiceFabcompTipoTora.Editar(id, descricao)
     .then(() => {
         res.status(200).json({ message: 'Grupo estoque atualizado com sucesso' });
       })
@@ -42,7 +41,7 @@ const Editar =  (req, res) => {
 const Deletar = (req, res) => {
     let id = parseInt(req.params.id, 10);
 
-    ServiceGrupoEstoque.Deletar(id, (err, result) => {
+    ServiceFabcompTipoTora.Deletar(id, (err, result) => {
         if (err) {
             res.status(500).json(err);
         } else {

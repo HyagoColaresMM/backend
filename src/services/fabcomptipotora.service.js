@@ -41,12 +41,52 @@ const Listar = async (descricao) => {
     });
 };
 
-const Inserir = (id, descricao, callback) => {
-    let params = [id, descricao];
-    let ssql =
-        "INSERT INTO FABCOMP_TIPO_TORA(ID, DESCRICAO) VALUES(?, ?) RETURNING ID";
+const Inserir = (descricao, callback) => {
+    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM FABCOMP_TIPO_TORA";
+    
+    firebird.attach(dbOptions, (err, db) => {
+        if (err) {
+            return callback({ error: 'Erro ao conectar no banco de dados', details: err });
+        }
 
-    executeQuery(ssql, params, callback);
+        db.query(ssqlMaxId, [], (err, result) => {
+            if (err) {
+                db.detach();
+                return callback({ error: 'Erro ao buscar o ID máximo', details: err });
+            }
+
+            let maxId = result[0].max_id || 0;
+            let newId = maxId + 1;
+            let params = [newId, descricao];
+            let ssqlInsert = "INSERT INTO FABCOMP_TIPO_TORA(ID, DESCRICAO) VALUES(?, ?) RETURNING ID";
+
+            db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
+                if (err) {
+                    db.detach();
+                    return callback({ error: 'Erro ao iniciar transação', details: err });
+                }
+
+                transaction.query(ssqlInsert, params, (err, result) => {
+                    if (err) {
+                        transaction.rollback();
+                        db.detach();
+                        return callback({ error: 'Erro ao inserir registro', details: err });
+                    }
+
+                    transaction.commit((err) => {
+                        if (err) {
+                            transaction.rollback();
+                            db.detach();
+                            return callback({ error: 'Erro ao cometer transação', details: err });
+                        }
+
+                        db.detach();
+                        callback(null, result);
+                    });
+                });
+            });
+        });
+    });
 };
 
 const Editar = (id, descricao) => {

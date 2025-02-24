@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.js"
   },
-  "author": "thiago",
+  "author": "Hyago e Tiago",
   "license": "ISC",
   "description": "",
   "dependencies": {
