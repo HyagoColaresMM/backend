@@ -2,27 +2,18 @@ https://sigfc.mminfoweb.com.br/
 usuario: admin
 senha: admin
 
+HYAGO COLARES
 
-  HYAGO
-
-  09.fabcomp_tipo_tora
-  10.grupo_estoque
-  11.subgrupo_estoque
-  12.fabcomp_tipomaterial
-  13.fabcomp_sg1_tm
-  14.fabcomp_sg2_tm
-  15.fabcomp_tm_subgrupo1
-  16.fabcomp_tm_subgrupo2
-  17.fabcomp_turnos
-
-
-  05.folha_funcoes
-  07.folha_rubricas
-
-
-Modificar os selects para join:
+04.folha_setores
+05.folha_funcoes
+07.folha_rubricas
+09.fabcomp_tipo_tora
+10.grupo_estoque
+11.subgrupo_estoque
+12.fabcomp_tipomaterial
+13.fabcomp_sg1_tm
+14.fabcomp_sg2_tm
 15.fabcomp_tm_subgrupo1
 16.fabcomp_tm_subgrupo2
-
-Criar a tabela folha funcionarios e adicionar o select dela com join
-folha_funcionarios
+17.fabcomp_turnos
+18.folha_funcionarios

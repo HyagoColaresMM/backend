@@ -7,7 +7,19 @@ import {
 
 const Listar = (nome, folhaSetores, folhaFuncoes) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM FOLHA_FUNCIONARIOS WHERE DELETED_AT IS NULL ';
+        let ssql1 = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM FOLHA_FUNCIONARIOS WHERE DELETED_AT IS NULL ';
+        let ssql = `
+            SELECT 
+                f.ID,
+                f.NOME,
+                fs.DESCRICAO AS DESCRICAO_FOLHA_SETORES,
+                ff.DESCRICAO AS DESCRICAO_FOLHA_FUNCOES
+            FROM FOLHA_FUNCIONARIOS f
+            LEFT JOIN FOLHA_SETORES fs ON  f.FOLHA_SETORES_ID = fs.ID
+            LEFT JOIN FOLHA_FUNCOES ff ON f.FOLHA_FUNCOES_ID = ff.ID
+            WHERE f.DELETED_AT IS NULL 
+        `
+
         let params = [];
 
         if (nome) {
@@ -59,7 +71,7 @@ const Inserir = (nome, folhaSetores, folhaFuncoes, callback) => {
             let maxId = result[0].max_id || 0;
             let newId = maxId + 1;
             let params = [newId, nome, folhaSetores, folhaFuncoes];
-            let ssqlInsert = "INSERT INTO FOLHA_FUNCIONARIOS(ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT) VALUES(?, ?, ?, ? CURRENT_TIMESTAMP) RETURNING ID";
+            let ssqlInsert = "INSERT INTO FOLHA_FUNCIONARIOS(ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT) VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID";
 
             db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
                 if (err) {
