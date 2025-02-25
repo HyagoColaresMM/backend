@@ -3,7 +3,11 @@ import ServiceFolhaSetores from "../services/folhasetores.service.js"
 const Listar = (req, res) => {
     const descricao = req.query.descricao
 
-    ServiceFolhaSetores.Listar(descricao)
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const skip = (page - 1) * limit;
+
+    ServiceFolhaSetores.Listar(descricao, limit, skip)
         .then((result) => {
             return res.status(200).json(result);
         })

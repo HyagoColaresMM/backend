@@ -5,9 +5,11 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = (turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco) => {
+const Listar = (turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco, limit, skip) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, TURNO, DESCRICAO, HORA_INICIAL_TURNO, HORA_FINAL_TURNO, HORAS_PROGRAMADA, TEMPODEALMOCO FROM FABCOMP_TURNOS WHERE DELETED_AT IS NULL ';
+        let ssql = 'SELECT';
+        ssql += ` FIRST ${limit} SKIP ${skip}`
+        ssql += ' ID, TURNO, DESCRICAO, HORA_INICIAL_TURNO, HORA_FINAL_TURNO, HORAS_PROGRAMADA, TEMPODEALMOCO FROM FABCOMP_TURNOS WHERE DELETED_AT IS NULL ';
         let params = [];
 
         if (turno) {

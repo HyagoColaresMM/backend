@@ -5,28 +5,23 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = (nome, folhaSetores, folhaFuncoes) => {
+const Listar = (nome, folhaSetores, folhaFuncoes, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql1 = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM FOLHA_FUNCIONARIOS WHERE DELETED_AT IS NULL ';
-        let ssql = `
-            SELECT 
-                f.ID,
-                f.NOME,
-                fs.DESCRICAO AS DESCRICAO_FOLHA_SETORES,
-                ff.DESCRICAO AS DESCRICAO_FOLHA_FUNCOES
-            FROM FOLHA_FUNCIONARIOS f
-            LEFT JOIN FOLHA_SETORES fs ON  f.FOLHA_SETORES_ID = fs.ID
-            LEFT JOIN FOLHA_FUNCOES ff ON f.FOLHA_FUNCOES_ID = ff.ID
-            WHERE f.DELETED_AT IS NULL 
+        let ssql = `SELECT`
+        ssql += ` FIRST ${limit} SKIP ${skip} `
+        ssql += `
+            f.ID,
+            f.NOME,
+            fs.DESCRICAO AS DESCRICAO_FOLHA_SETORES,
+            ff.DESCRICAO AS DESCRICAO_FOLHA_FUNCOES
+        FROM FOLHA_FUNCIONARIOS f
+        LEFT JOIN FOLHA_SETORES fs ON  f.FOLHA_SETORES_ID = fs.ID
+        LEFT JOIN FOLHA_FUNCOES ff ON f.FOLHA_FUNCOES_ID = ff.ID
+        WHERE f.DELETED_AT IS NULL
         `
 
         let params = [];
-
-        if (nome) {
-            ssql += 'AND NOME = ?';
-            params.push(nome);
-        }
-
 
         firebird.attach(dbOptions, (err, db) => {
             if (err) return reject({ error: 'Erro ao conectar no banco de dados', details: err });

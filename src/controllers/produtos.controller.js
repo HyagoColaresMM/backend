@@ -4,7 +4,11 @@ const Listar = (req, res) => {
     const descricao = req.query.descricao
     const p_aprazo = req.query.p_aprazo
 
-    ServiceProdutos.Listar(descricao, p_aprazo, (err, result) => {
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const skip = (page - 1) * limit;
+
+    ServiceProdutos.Listar(descricao, p_aprazo, limit, skip, (err, result) => {
         if (err) {
             res.status(500).json(err);
         }

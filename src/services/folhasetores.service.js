@@ -5,9 +5,11 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = (descricao) => {
+const Listar = (descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM FOLHA_SETORES WHERE DELETED_AT IS NULL ';
+        let ssql = 'SELECT';
+        ssql += ` FIRST ${limit} SKIP ${skip}`
+        ssql += ' ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM FOLHA_SETORES WHERE DELETED_AT IS NULL ';
         let params = [];
 
         if (descricao) {

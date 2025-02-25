@@ -4,7 +4,11 @@ const Listar = (req, res) => {
     const tipoMaterial = req.query.fabcomp_tipomaterial_id
     const sg1Tm = req.query.fabcomp_sg1_tm_id
 
-    ServiceFabcompTmSubgrupo1.Listar(tipoMaterial, sg1Tm)
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const skip = (page - 1) * limit;
+
+    ServiceFabcompTmSubgrupo1.Listar(tipoMaterial, sg1Tm, limit, skip)
         .then((result) => {
             return res.status(200).json(result);
         })

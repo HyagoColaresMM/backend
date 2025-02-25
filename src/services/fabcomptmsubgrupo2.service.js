@@ -5,11 +5,12 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = async (tipoMaterial, sg2Tm) => {
+const Listar = async (tipoMaterial, sg2Tm, limit, skip) => {
     return new Promise((resolve, reject) => {
         //let ssql1 = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG2_TM_ID,CREATED_AT, UPDATED_AT FROM FABCOMP_TM_SUBGRUPO2 WHERE DELETED_AT IS NULL ';
-        let ssql = `
-            SELECT 
+        let ssql = `SELECT`
+        ssql += ` FIRST ${limit} SKIP ${skip} `
+        ssql += `
                 s.ID,
                 tm.DESCRICAO AS DESCRICAO_TIPOMATERIAL,
                 sg.DESCRICAO AS DESCRICAO_SG2_TM

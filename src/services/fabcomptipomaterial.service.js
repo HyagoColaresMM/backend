@@ -5,7 +5,7 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = async (descricao) => {
+const Listar = async (descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM FABCOMP_TIPOMATERIAL WHERE DELETED_AT IS NULL ';
         const params = [];

@@ -7,9 +7,11 @@ import {
 
 //// PRODUTOS -------------------------------------
 
-const Listar = (descricao, p_aprazo, callback) => {
+const Listar = (descricao, p_aprazo, limit, skip, callback) => {
     let filter = [];
-    let ssql = "SELECT FIRST 50 * FROM PRODUTOS WHERE ID_PRODUTO > 0 "; //AND DELETED_AT = ''
+    let ssql = 'SELECT';
+    ssql += ` FIRST ${limit} SKIP ${skip}`
+    ssql += " * FROM PRODUTOS WHERE ID_PRODUTO > 0 "; //AND DELETED_AT = ''
 
     if (descricao) {
         ssql += "and descricao like ?";
