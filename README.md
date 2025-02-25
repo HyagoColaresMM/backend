@@ -52,3 +52,7 @@ As seguintes tabelas foram criadas e estão todas implementadas no sistema. Cada
     - **Rota:** `/v1/folhasetores`
     - **Descrição:** Controla os setores da empresa.
 
+13. **folha_funcionarios**
+    - **Rota:** `/v1/folhafuncionarios`
+    - **Descrição:** Gerencia os dados dos funcionários da empresa.
+
