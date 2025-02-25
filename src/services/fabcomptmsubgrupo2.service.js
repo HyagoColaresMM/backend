@@ -7,7 +7,18 @@ import {
 
 const Listar = async (tipoMaterial, sg2Tm) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG2_TM_ID,CREATED_AT, UPDATED_AT FROM FABCOMP_TM_SUBGRUPO2 WHERE DELETED_AT IS NULL ';
+        //let ssql1 = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG2_TM_ID,CREATED_AT, UPDATED_AT FROM FABCOMP_TM_SUBGRUPO2 WHERE DELETED_AT IS NULL ';
+        let ssql = `
+            SELECT 
+                s.ID,
+                tm.DESCRICAO AS DESCRICAO_TIPOMATERIAL,
+                sg.DESCRICAO AS DESCRICAO_SG2_TM
+            FROM FABCOMP_TM_SUBGRUPO2 s
+            LEFT JOIN FABCOMP_TIPOMATERIAL tm ON s.FABCOMP_TIPOMATERIAL_ID = tm.ID
+            LEFT JOIN FABCOMP_SG2_TM sg ON s.FABCOMP_SG2_TM_ID = sg.ID
+            WHERE s.DELETED_AT IS NULL;
+        `
+
         const params = [];
 
         if (tipoMaterial) {
@@ -48,7 +59,7 @@ const Listar = async (tipoMaterial, sg2Tm) => {
 
 const Inserir = (tipoMaterial, sg2Tm, callback) => {
     let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM FABCOMP_TM_SUBGRUPO2";
-    
+
     firebird.attach(dbOptions, (err, db) => {
         if (err) {
             return callback({ error: 'Erro ao conectar no banco de dados', details: err });

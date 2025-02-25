@@ -16,17 +16,13 @@ senha: admin
   17.fabcomp_turnos
 
 
-
-
   05.folha_funcoes
-  06.folha_riscos
   07.folha_rubricas
 
 
+Modificar os selects para join:
+15.fabcomp_tm_subgrupo1
+16.fabcomp_tm_subgrupo2
 
-
-
-
-
-
-
+Criar a tabela folha funcionarios e adicionar o select dela com join
+folha_funcionarios

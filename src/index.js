@@ -13,7 +13,7 @@ import routeFabcompTurnos from "./routes/fabcompturnos.route.js";
 import routeFolhaRubricas from "./routes/folharubricas.route.js";
 import routeFolhaFuncoes from "./routes/folhafuncoes.route.js";
 import routeFolhaSetores from "./routes/folhasetores.route.js";
-
+import routeFolhaFuncionarios from "./routes/folhafuncionarios.route.js";
 
 const app = express();
 
@@ -37,6 +37,8 @@ app.use('/v1', routeFabcompTurnos)
 app.use('/v1', routeFolhaRubricas)
 app.use('/v1', routeFolhaFuncoes)
 app.use('/v1', routeFolhaSetores)
+app.use('/v1', routeFolhaFuncionarios)
+
 /* Thiago */
 
 const port = 5000;
