@@ -11,6 +11,9 @@ import routeFabcompTmSubgrupo1 from "./routes/fabcomptmsubgrupo1.route.js";
 import routeFabcompTmSubgrupo2 from "./routes/fabcomptmsubgrupo2.route.js";
 import routeFabcompTurnos from "./routes/fabcompturnos.route.js";
 import routeFolhaRubricas from "./routes/folharubricas.route.js";
+import routeFolhaFuncoes from "./routes/folhafuncoes.route.js";
+import routeFolhaSetores from "./routes/folhasetores.route.js";
+
 
 const app = express();
 
@@ -25,13 +28,15 @@ app.use('/v1', routeFabcompTipoTora)
 app.use('/v1', routeGrupoEstoque)
 app.use('/v1', routeSubGrupoEstoque)
 app.use('/v1', routeFabcompTipoMaterial)
-
 app.use('/v1', routeFabcompSg1Tm)
 app.use('/v1', routeFabcompSg2Tm)
 app.use('/v1', routeFabcompTmSubgrupo1)
 app.use('/v1', routeFabcompTmSubgrupo2)
 app.use('/v1', routeFabcompTurnos)
+
 app.use('/v1', routeFolhaRubricas)
+app.use('/v1', routeFolhaFuncoes)
+app.use('/v1', routeFolhaSetores)
 /* Thiago */
 
 const port = 5000;

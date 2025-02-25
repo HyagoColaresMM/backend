@@ -18,7 +18,9 @@ senha: admin
 
 
 
-
+  05.folha_funcoes
+  06.folha_riscos
+  07.folha_rubricas
 
 
 

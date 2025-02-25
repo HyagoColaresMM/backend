@@ -9,9 +9,6 @@ senha: admin
   02.grupo_veiculos
   03.grupos_despesas
   04.folha_setores
-  05.folha_funcoes
-  06.folha_riscos
-  07.folha_rubricas
   08.extratores
 
 

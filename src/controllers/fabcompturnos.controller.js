@@ -8,8 +8,6 @@ const Listar = (req, res) => {
     const horasProgramada = req.query.horas_programada
     const tempoDeAlmoco = req.query.tempodealmoco
 
-    console.log('Parameters:', { turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco });
-
     ServiceFabcompTurnos.Listar(turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco)
         .then((result) => {
             return res.status(200).json(result);

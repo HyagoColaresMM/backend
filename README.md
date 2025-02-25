@@ -39,3 +39,16 @@ As seguintes tabelas foram criadas e estão todas implementadas no sistema. Cada
 9. **fabcomp_turnos**
     - **Rota:** `/v1/turnos`
     - **Descrição:** Gerencia os turnos de trabalho no sistema.
+
+10. **folha_rubricas**
+    - **Rota:** `/v1/folharubricas`
+    - **Descrição:** Gerencia as rubricas da folha de pagamento.
+
+11. **folha_funcoes**
+    - **Rota:** `/v1/folhafuncoes`
+    - **Descrição:** Administra as funções dos colaboradores.
+
+12. **folha_setores**
+    - **Rota:** `/v1/folhasetores`
+    - **Descrição:** Controla os setores da empresa.
+

@@ -7,3 +7,5 @@
   15.fabcomp_tm_subgrupo1
   16.fabcomp_tm_subgrupo2
   17.fabcomp_turnos
+
+  07.folha_rubricas
