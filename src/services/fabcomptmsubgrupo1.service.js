@@ -10,6 +10,7 @@ const Listar = async (tipoMaterial, sg1Tm, limit, skip) => {
         //let ssql1 = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG1_TM_ID FROM FABCOMP_TM_SUBGRUPO1 WHERE DELETED_AT IS NULL ';
         let ssql = `SELECT`
         ssql += ` FIRST ${limit} SKIP ${skip} `
+        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += `
                 s.ID,
                 tm.DESCRICAO AS DESCRICAO_TIPOMATERIAL,

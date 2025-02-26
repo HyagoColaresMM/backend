@@ -9,6 +9,7 @@ const Listar = async (descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
         ssql += ` FIRST ${limit} SKIP ${skip}`
+        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += ' ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM FABCOMP_SG1_TM WHERE DELETED_AT IS NULL ';
         const params = [];
 

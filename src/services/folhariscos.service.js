@@ -9,7 +9,8 @@ const Listar = (risco, descricao_risco, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
         ssql += ` FIRST ${limit} SKIP ${skip}`
-        ssql += ' ID, RISCO, DESCRICAO_RISCO, CREATED_AT, UPDATED_AT FROM FOLHA_RISCOS WHERE DELETED_AT IS NULL ';
+        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+        ssql += ' ID, RISCO, DESCRICAO_RISCO FROM FOLHA_RISCOS WHERE DELETED_AT IS NULL ';
         let params = [];
 
         if (risco) {

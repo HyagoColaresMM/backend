@@ -9,7 +9,8 @@ const Listar = (descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
         ssql += ` FIRST ${limit} SKIP ${skip}`
-        ssql += ' ID, DESCRICAO, CREATED_AT, UPDATED_AT FROM SUBGRUPO_ESTOQUE WHERE DELETED_AT IS NULL ';
+        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+        ssql += ' ID, DESCRICAO FROM SUBGRUPO_ESTOQUE WHERE DELETED_AT IS NULL ';
         const params = [];
 
         if (descricao) {

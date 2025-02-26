@@ -7,9 +7,10 @@ import {
 
 const Listar = (idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido, limit, skip) => {
     return new Promise((resolve, reject) => {
-        let ssql1 = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM EXTRATORES WHERE DELETED_AT IS NULL ';
+        //let ssql1 = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM EXTRATORES WHERE DELETED_AT IS NULL ';
         let ssql = `SELECT`
         ssql += ` FIRST ${limit} SKIP ${skip} `
+        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += `
             e.ID,
             tp.DESCRICAO AS DESCRICAO_TIPO,

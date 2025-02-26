@@ -9,7 +9,11 @@ const Listar = (valor, descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
         ssql += ` FIRST ${limit} SKIP ${skip}`
-        ssql += ' ID, VALOR, DESCRICAO, CREATED_AT, UPDATED_AT FROM TIPO_PESSOA WHERE DELETED_AT IS NULL ';
+        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+        //ssql += ` COUNT(*) OVER () AS TOTAL_REGISTROS,`
+        ssql += ' ID, VALOR, DESCRICAO FROM TIPO_PESSOA WHERE DELETED_AT IS NULL ';
+
+
         let params = [];
 
         if (valor) {
@@ -39,6 +43,21 @@ const Listar = (valor, descricao, limit, skip) => {
                             transaction.rollback();
                             return reject({ error: 'Erro ao cometer transação', details: err });
                         }
+
+                        // // Extrai o total de registros a partir do primeiro resultado
+                        // const totalRegistros = result.length > 0 ? result[0].total_registros : 0;
+
+                        // // Remove o campo total_registros de cada item
+                        // const dataSemTotal = result.map(item => {
+                        //     const { total_registros, ...rest } = item;
+                        //     return rest;
+                        // });
+
+                        // // Monta o objeto de resposta com o cabeçalho e os dados filtrados
+                        // const response = {
+                        //     header: { totalRegistros },
+                        //     data: dataSemTotal
+                        // };
 
                         resolve(result);
                     });
