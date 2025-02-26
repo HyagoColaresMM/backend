@@ -55,3 +55,23 @@ As seguintes tabelas foram criadas e estão todas implementadas no sistema. Cada
 13. **folha_funcionarios**
     - **Rota:** `/v1/folhafuncionarios?limit=10&page=1`
     - **Descrição:** Gerencia os dados dos funcionários da empresa.
+
+14. **extratores**
+    - **Rota:** `/v1/extratores?limit=10&page=1`
+    - **Descrição:** Gerencia os dados dos extratores.
+
+15. **tipopessoa**
+    - **Rota:** `/v1/tipopessoa?limit=10&page=1`
+    - **Descrição:** Gerencia os tipos de pessoas no sistema.
+
+16. **grupoveiculos**
+    - **Rota:** `/v1/grupoveiculos?limit=10&page=1`
+    - **Descrição:** Administra os grupos de veículos.
+
+17. **gruposdespesas**
+    - **Rota:** `/v1/gruposdespesas?limit=10&page=1`
+    - **Descrição:** Controla os grupos de despesas.
+
+18. **folhariscos**
+    - **Rota:** `/v1/folhariscos?limit=10&page=1`
+    - **Descrição:** Gerencia os dados de riscos.
