@@ -9,6 +9,7 @@ export const dbOptions = {
   lowercase_keys: true,
   role: null,
   pageSize: 4096,
+  blobAsText: true,
   encoding: 'UTF8'
 };
 
