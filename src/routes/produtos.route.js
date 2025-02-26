@@ -1,15 +1,15 @@
 import { Router } from "express"
-import ControllerFabcompTipoTora from "../controllers/fabcomptipotora.controller.js"
+import ControllerProdutos from "../controllers/produtos.controller.js"
 
-const routeFabcompTipoTora = Router()
+const routeProdutos = Router()
 
 // GET
-routeFabcompTipoTora.get("/tipotora", ControllerFabcompTipoTora.Listar);
+routeProdutos.get("/produtos", ControllerProdutos.Listar);
 // POST
-routeFabcompTipoTora.post("/tipotora", ControllerFabcompTipoTora.Inserir);
+routeProdutos.post("/produtos", ControllerProdutos.Inserir);
 // UPDATE
-routeFabcompTipoTora.put("/tipotora/:id", ControllerFabcompTipoTora.Editar);
+routeProdutos.put("/produtos/:id", ControllerProdutos.Editar);
 // DELETE
-routeFabcompTipoTora.delete("/tipotora/:id", ControllerFabcompTipoTora.Deletar);
+routeProdutos.delete("/produtos/:id", ControllerProdutos.Deletar);
 
-export default routeFabcompTipoTora
+export default routeProdutos
