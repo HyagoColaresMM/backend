@@ -13,7 +13,6 @@ const Listar = (valor, descricao, limit, skip) => {
         //ssql += ` COUNT(*) OVER () AS TOTAL_REGISTROS,`
         ssql += ' ID, VALOR, DESCRICAO FROM TIPO_PESSOA WHERE DELETED_AT IS NULL ';
 
-
         let params = [];
 
         if (valor) {
