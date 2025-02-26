@@ -14,6 +14,7 @@ import routeFolhaRubricas from "./routes/folharubricas.route.js";
 import routeFolhaFuncoes from "./routes/folhafuncoes.route.js";
 import routeFolhaSetores from "./routes/folhasetores.route.js";
 import routeFolhaFuncionarios from "./routes/folhafuncionarios.route.js";
+import routeFolhaRiscos from "./routes/folhariscos.route.js";
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(cors());
 // Rota
 app.use('/v1', routeProdutos)
 
-/* Hyago */ 
+/* Hyago */
 app.use('/v1', routeFabcompTipoTora)
 app.use('/v1', routeGrupoEstoque)
 app.use('/v1', routeSubGrupoEstoque)
@@ -38,6 +39,7 @@ app.use('/v1', routeFolhaRubricas)
 app.use('/v1', routeFolhaFuncoes)
 app.use('/v1', routeFolhaSetores)
 app.use('/v1', routeFolhaFuncionarios)
+app.use('/v1', routeFolhaRiscos)
 
 /* Thiago */
 
