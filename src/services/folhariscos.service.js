@@ -49,7 +49,7 @@ const Listar = (risco, descricao_risco, limit, skip) => {
 };
 
 const Inserir = (risco, descricao_risco, callback) => {
-    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM FOLHA_RUBRICAS";
+    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM FOLHA_RISCOS";
 
     firebird.attach(dbOptions, (err, db) => {
         if (err) {

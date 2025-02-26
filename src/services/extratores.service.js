@@ -77,7 +77,7 @@ const Inserir = (idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, 
             let maxId = result[0].max_id || 0;
             let newId = maxId + 1;
             let params = [newId, idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido];
-            let ssqlInsert = "INSERT INTO EXTRATORES(ID, TIPO_PESSOA_ID, NOME, CIDADE, FONE1, FONE, PRECO_MEDIO, ENDERECO, BAIRRO, UF, CEP, CX_POSTAL, OBS, RG, CPF, APELIDO, CREATED_AT) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID";
+            let ssqlInsert = 'INSERT INTO EXTRATORES(ID, TIPO_PESSOA_ID, NOME, CIDADE, FONE1, FONE, PRECO_MEDIO, ENDERECO, BAIRRO, UF, CEP, CX_POSTAL, OBS, RG, CPF, APELIDO, CREATED_AT) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID';
 
         db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
             if (err) {
