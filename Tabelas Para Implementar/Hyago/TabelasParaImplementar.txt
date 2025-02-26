@@ -3,6 +3,3 @@ usuario: admin
 senha: admin
 
 HYAGO COLARES
-
-  01.tipo_pessoa
-  08.extratores

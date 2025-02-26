@@ -17,6 +17,8 @@ import routeFolhaFuncionarios from "./routes/folhafuncionarios.route.js";
 import routeFolhaRiscos from "./routes/folhariscos.route.js";
 import routeGrupoVeiculos from "./routes/grupoveiculos.route.js";
 import routeGrupoDespesas from "./routes/grupodespesas.route.js";
+import routeTipoPessoa from "./routes/tipopessoa.route.js";
+import routeExtratores from "./routes/extratores.route.js";
 
 const app = express();
 
@@ -44,6 +46,8 @@ app.use('/v1', routeFolhaFuncionarios)
 app.use('/v1', routeFolhaRiscos)
 app.use('/v1', routeGrupoVeiculos)
 app.use('/v1', routeGrupoDespesas)
+app.use('/v1', routeTipoPessoa)
+app.use('/v1', routeExtratores)
 
 /* Thiago */
 

@@ -5,21 +5,21 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = (risco, descricao_risco, limit, skip) => {
+const Listar = (valor, descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
         ssql += ` FIRST ${limit} SKIP ${skip}`
-        ssql += ' ID, RISCO, DESCRICAO_RISCO, CREATED_AT, UPDATED_AT FROM FOLHA_RISCOS WHERE DELETED_AT IS NULL ';
+        ssql += ' ID, VALOR, DESCRICAO, CREATED_AT, UPDATED_AT FROM TIPO_PESSOA WHERE DELETED_AT IS NULL ';
         let params = [];
 
-        if (risco) {
-            ssql += "AND RISCO = ?";
-            params.push(risco);
+        if (valor) {
+            ssql += "AND VALOR = ?";
+            params.push(valor);
         }
 
-        if (descricao_risco) {
-            ssql += "AND DESCRICAO_RISCO = ?";
-            params.push(descricao_risco);
+        if (descricao) {
+            ssql += "AND DESCRICAO = ?";
+            params.push(descricao);
         }
 
         firebird.attach(dbOptions, (err, db) => {
@@ -48,8 +48,8 @@ const Listar = (risco, descricao_risco, limit, skip) => {
     });
 };
 
-const Inserir = (risco, descricao_risco, callback) => {
-    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM FOLHA_RUBRICAS";
+const Inserir = (valor, descricao, callback) => {
+    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM TIPO_PESSOA";
 
     firebird.attach(dbOptions, (err, db) => {
         if (err) {
@@ -64,8 +64,8 @@ const Inserir = (risco, descricao_risco, callback) => {
 
             let maxId = result[0].max_id || 0;
             let newId = maxId + 1;
-            let params = [newId, risco, descricao_risco];
-            let ssqlInsert = "INSERT INTO FOLHA_RISCOS(ID, RISCO, DESCRICAO_RISCO, CREATED_AT) VALUES(?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID";
+            let params = [newId, valor, descricao];
+            let ssqlInsert = "INSERT INTO TIPO_PESSOA(ID, VALOR, DESCRICAO, CREATED_AT) VALUES(?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID";
 
             db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
                 if (err) {
@@ -96,19 +96,19 @@ const Inserir = (risco, descricao_risco, callback) => {
     });
 };
 
-const Editar = (id, risco, descricao_risco) => {
+const Editar = (id, valor, descricao) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FOLHA_RISCOS SET UPDATED_AT = CURRENT_TIMESTAMP, ';
+        let ssql = 'UPDATE TIPO_PESSOA SET UPDATED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
-        if (risco) {
-            ssql += "RISCO = ?, ";
-            params.push(risco);
+        if (valor) {
+            ssql += "VALOR = ?, ";
+            params.push(valor);
         }
 
-        if (descricao_risco) {
-            ssql += "DESCRICAO_RISCO = ?, ";
-            params.push(descricao_risco);
+        if (descricao) {
+            ssql += "DESCRICAO = ?, ";
+            params.push(descricao);
         }
 
         ssql = ssql.slice(0, -2);
@@ -151,7 +151,7 @@ const Editar = (id, risco, descricao_risco) => {
 
 const Deletar = (id) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FOLHA_RISCOS SET DELETED_AT = CURRENT_TIMESTAMP, ';
+        let ssql = 'UPDATE TIPO_PESSOA SET DELETED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
         ssql = ssql.slice(0, -2);
@@ -194,7 +194,7 @@ const Deletar = (id) => {
 
 const Deletar2 = (id, callback) => {
     let params = [id]
-    let ssql = "DELETE FROM FOLHA_RISCOS WHERE ID = ? "; //AND DELETED_AT = ''
+    let ssql = "DELETE FROM TIPO_PESSOA WHERE ID = ? "; //AND DELETED_AT = ''
 
     executeQuery(ssql, params, callback)
 };

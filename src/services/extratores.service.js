@@ -5,22 +5,34 @@ import {
     executeQueryTransaction,
 } from "../config/database.js";
 
-const Listar = (risco, descricao_risco, limit, skip) => {
+const Listar = (idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido, limit, skip) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'SELECT';
-        ssql += ` FIRST ${limit} SKIP ${skip}`
-        ssql += ' ID, RISCO, DESCRICAO_RISCO, CREATED_AT, UPDATED_AT FROM FOLHA_RISCOS WHERE DELETED_AT IS NULL ';
+        let ssql1 = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM EXTRATORES WHERE DELETED_AT IS NULL ';
+        let ssql = `SELECT`
+        ssql += ` FIRST ${limit} SKIP ${skip} `
+        ssql += `
+            e.ID,
+            tp.DESCRICAO AS DESCRICAO_TIPO,
+            e.NOME,
+            e.CIDADE,
+            e.FONE1,
+            e.FONE,
+            e.PRECO_MEDIO,
+            e.ENDERECO,
+            e.BAIRRO,
+            e.UF,
+            e.CEP,
+            e.CX_POSTAL,
+            e.OBS,
+            e.RG,
+            e.CPF,
+            e.APELIDO
+        FROM EXTRATORES e
+        LEFT JOIN TIPO_PESSOA tp ON  e.TIPO_PESSOA_ID = tp.ID
+        WHERE e.DELETED_AT IS NULL
+        `
+
         let params = [];
-
-        if (risco) {
-            ssql += "AND RISCO = ?";
-            params.push(risco);
-        }
-
-        if (descricao_risco) {
-            ssql += "AND DESCRICAO_RISCO = ?";
-            params.push(descricao_risco);
-        }
 
         firebird.attach(dbOptions, (err, db) => {
             if (err) return reject({ error: 'Erro ao conectar no banco de dados', details: err });
@@ -48,8 +60,8 @@ const Listar = (risco, descricao_risco, limit, skip) => {
     });
 };
 
-const Inserir = (risco, descricao_risco, callback) => {
-    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM FOLHA_RUBRICAS";
+const Inserir = (idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido, callback) => {
+    let ssqlMaxId = "SELECT MAX(ID) AS MAX_ID FROM EXTRATORES";
 
     firebird.attach(dbOptions, (err, db) => {
         if (err) {
@@ -64,51 +76,116 @@ const Inserir = (risco, descricao_risco, callback) => {
 
             let maxId = result[0].max_id || 0;
             let newId = maxId + 1;
-            let params = [newId, risco, descricao_risco];
-            let ssqlInsert = "INSERT INTO FOLHA_RISCOS(ID, RISCO, DESCRICAO_RISCO, CREATED_AT) VALUES(?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID";
+            let params = [newId, idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido];
+            let ssqlInsert = "INSERT INTO EXTRATORES(ID, TIPO_PESSOA_ID, NOME, CIDADE, FONE1, FONE, PRECO_MEDIO, ENDERECO, BAIRRO, UF, CEP, CX_POSTAL, OBS, RG, CPF, APELIDO, CREATED_AT) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP) RETURNING ID";
 
-            db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
+        db.transaction(firebird.ISOLATION_READ_COMMITTED, (err, transaction) => {
+            if (err) {
+                db.detach();
+                return callback({ error: 'Erro ao iniciar transação', details: err });
+            }
+
+            transaction.query(ssqlInsert, params, (err, result) => {
                 if (err) {
+                    transaction.rollback();
                     db.detach();
-                    return callback({ error: 'Erro ao iniciar transação', details: err });
+                    return callback({ error: 'Erro ao inserir registro', details: err });
                 }
 
-                transaction.query(ssqlInsert, params, (err, result) => {
+                transaction.commit((err) => {
                     if (err) {
                         transaction.rollback();
                         db.detach();
-                        return callback({ error: 'Erro ao inserir registro', details: err });
+                        return callback({ error: 'Erro ao cometer transação', details: err });
                     }
 
-                    transaction.commit((err) => {
-                        if (err) {
-                            transaction.rollback();
-                            db.detach();
-                            return callback({ error: 'Erro ao cometer transação', details: err });
-                        }
-
-                        db.detach();
-                        callback(null, result);
-                    });
+                    db.detach();
+                    callback(null, result);
                 });
             });
         });
     });
+});
 };
 
-const Editar = (id, risco, descricao_risco) => {
+const Editar = (id, idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FOLHA_RISCOS SET UPDATED_AT = CURRENT_TIMESTAMP, ';
+        let ssql = 'UPDATE EXTRATORES SET UPDATED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
-        if (risco) {
-            ssql += "RISCO = ?, ";
-            params.push(risco);
+        if (idTipoPessoa) {
+            ssql += "TIPO_PESSOA_ID = ?, ";
+            params.push(idTipoPessoa);
         }
 
-        if (descricao_risco) {
-            ssql += "DESCRICAO_RISCO = ?, ";
-            params.push(descricao_risco);
+        if (nome) {
+            ssql += "NOME = ?, ";
+            params.push(nome);
+        }
+
+        if (cidade) {
+            ssql += "CIDADE = ?, ";
+            params.push(cidade);
+        }
+
+        if (fone1) {
+            ssql += "FONE1 = ?, ";
+            params.push(fone1);
+        }
+
+        if (fone) {
+            ssql += "FONE = ?, ";
+            params.push(fone);
+        }
+        
+        if (precoMedio) {
+            ssql += "PRECO_MEDIO = ?, ";
+            params.push(precoMedio);
+        }
+
+        if (endereco) {
+            ssql += "ENDERECO = ?, ";
+            params.push(endereco);
+        }
+
+        if (bairro) {
+            ssql += "BAIRRO = ?, ";
+            params.push(bairro);
+        }
+
+        if (uf) {
+            ssql += "UF = ?, ";
+            params.push(uf);
+        }
+
+        if (cep) {
+            ssql += "CEP = ?, ";
+            params.push(cep);
+        }
+
+        if (cxPostal) {
+            ssql += "CX_POSTAL = ?, ";
+            params.push(cxPostal);
+        }
+
+        if (obs) {
+            ssql += "OBS = ?, ";
+            params.push(obs);
+        }
+
+        if (rg) {
+            ssql += "RG = ?, ";
+            params.push(rg);
+        }
+
+        if (cpf) {
+            ssql += "CPF = ?, ";
+            params.push(cpf);
+        }
+
+        if (apelido) {
+            ssql += "APELIDO = ?, ";
+            params.push(apelido);
         }
 
         ssql = ssql.slice(0, -2);
@@ -151,7 +228,7 @@ const Editar = (id, risco, descricao_risco) => {
 
 const Deletar = (id) => {
     return new Promise((resolve, reject) => {
-        let ssql = 'UPDATE FOLHA_RISCOS SET DELETED_AT = CURRENT_TIMESTAMP, ';
+        let ssql = 'UPDATE EXTRATORES SET DELETED_AT = CURRENT_TIMESTAMP, ';
         const params = [];
 
         ssql = ssql.slice(0, -2);
@@ -194,7 +271,7 @@ const Deletar = (id) => {
 
 const Deletar2 = (id, callback) => {
     let params = [id]
-    let ssql = "DELETE FROM FOLHA_RISCOS WHERE ID = ? "; //AND DELETED_AT = ''
+    let ssql = "DELETE FROM EXTRATORES WHERE ID = ? "; //AND DELETED_AT = ''
 
     executeQuery(ssql, params, callback)
 };
