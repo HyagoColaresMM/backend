@@ -49,7 +49,12 @@ app.use('/v1', routeGrupoDespesas)
 app.use('/v1', routeTipoPessoa)
 app.use('/v1', routeExtratores)
 
-/* Thiago */
+// Middleware de tratamento de erros
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Erro interno no servidor' });
+});
+
 
 const port = 5000;
 

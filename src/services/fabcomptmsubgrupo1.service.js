@@ -12,7 +12,7 @@ const Listar = async (tipoMaterial, sg1Tm, limit, skip) => {
         if (limit && skip >= 0) {
             ssql += ` FIRST ${limit} SKIP ${skip}`
         }
-        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+        //ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += `
                 s.ID,
                 tm.DESCRICAO AS DESCRICAO_TIPOMATERIAL,

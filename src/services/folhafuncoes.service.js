@@ -11,7 +11,7 @@ const Listar = (descricao, limit, skip) => {
         if (limit && skip >= 0) {
             ssql += ` FIRST ${limit} SKIP ${skip}`
         }
-        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+        //ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += ' ID, DESCRICAO FROM FOLHA_FUNCOES WHERE DELETED_AT IS NULL ';
         let params = [];
 

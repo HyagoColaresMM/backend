@@ -12,7 +12,7 @@ const Listar = (idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, b
         if (limit && skip >= 0) {
             ssql += ` FIRST ${limit} SKIP ${skip}`
         }
-        ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+        //ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += `
             e.ID,
             tp.DESCRICAO AS DESCRICAO_TIPO,
