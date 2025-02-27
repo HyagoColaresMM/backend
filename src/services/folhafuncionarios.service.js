@@ -9,7 +9,9 @@ const Listar = (nome, folhaSetores, folhaFuncoes, limit, skip) => {
     return new Promise((resolve, reject) => {
         //let ssql1 = 'SELECT ID, NOME, FOLHA_SETORES_ID, FOLHA_FUNCOES_ID, CREATED_AT FROM FOLHA_FUNCIONARIOS WHERE DELETED_AT IS NULL ';
         let ssql = `SELECT`
-        ssql += ` FIRST ${limit} SKIP ${skip} `
+        if (limit && skip >= 0) {
+            ssql += ` FIRST ${limit} SKIP ${skip}`
+        }
         ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += `
             f.ID,

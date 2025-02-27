@@ -4,8 +4,8 @@ const Listar = (req, res) => {
     const tipoMaterial = req.query.fabcomp_tipomaterial_id
     const sg1Tm = req.query.fabcomp_sg1_tm_id
 
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10);
+    const page = parseInt(req.query.page, 10);
     const skip = (page - 1) * limit;
 
     ServiceFabcompTmSubgrupo1.Listar(tipoMaterial, sg1Tm, limit, skip)

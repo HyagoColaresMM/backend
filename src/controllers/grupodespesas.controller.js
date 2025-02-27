@@ -3,8 +3,8 @@ import ServiceGrupoDespesas from "../services/grupodespesas.service.js"
 const Listar = (req, res) => {
     const descricao = req.query.descricao
 
-    const limit = parseInt(req.query.limit, 10) || 10
-    const page = parseInt(req.query.page, 10) || 1
+    const limit = parseInt(req.query.limit, 10);
+    const page = parseInt(req.query.page, 10);
     const skip = (page - 1) * limit
 
     ServiceGrupoDespesas.Listar(descricao, limit, skip)

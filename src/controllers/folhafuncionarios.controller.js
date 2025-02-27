@@ -5,8 +5,8 @@ const Listar = (req, res) => {
     const folhaSetores = req.query.folha_setores_id;
     const folhaFuncoes = req.query.folha_funcoes_id;
     
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10);
+    const page = parseInt(req.query.page, 10);
     const skip = (page - 1) * limit;
 
     ServiceFolhaFuncionarios.Listar(nome, folhaSetores, folhaFuncoes, limit, skip)

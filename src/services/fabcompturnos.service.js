@@ -8,7 +8,9 @@ import {
 const Listar = (turno, descricao, horaInicialTurno, horaFinalTurno, horasProgramada, tempoDeAlmoco, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
-        ssql += ` FIRST ${limit} SKIP ${skip}`
+        if (limit && skip >= 0) {
+            ssql += ` FIRST ${limit} SKIP ${skip}`
+        }
         ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += ' ID, TURNO, DESCRICAO, HORA_INICIAL_TURNO, HORA_FINAL_TURNO, HORAS_PROGRAMADA, TEMPODEALMOCO FROM FABCOMP_TURNOS WHERE DELETED_AT IS NULL ';
         let params = [];

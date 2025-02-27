@@ -8,7 +8,9 @@ import {
 const Listar = (risco, descricao_risco, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
-        ssql += ` FIRST ${limit} SKIP ${skip}`
+        if (limit && skip >= 0) {
+            ssql += ` FIRST ${limit} SKIP ${skip}`
+        }
         ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += ' ID, RISCO, DESCRICAO_RISCO FROM FOLHA_RISCOS WHERE DELETED_AT IS NULL ';
         let params = [];

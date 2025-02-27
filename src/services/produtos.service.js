@@ -12,6 +12,7 @@ const Listar = (descricao, p_aprazo, limit, skip, callback) => {
     let ssql = 'SELECT';
     ssql += ` FIRST ${limit} SKIP ${skip}`
     ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
+    ssql += ` COUNT(*) OVER () AS TOTAL_REGISTROS,`
     ssql += " * FROM PRODUTOS WHERE ID_PRODUTO > 0 "; //AND DELETED_AT = ''
 
     if (descricao) {

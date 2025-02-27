@@ -9,7 +9,9 @@ const Listar = async (tipoMaterial, sg2Tm, limit, skip) => {
     return new Promise((resolve, reject) => {
         //let ssql1 = 'SELECT ID, FABCOMP_TIPOMATERIAL_ID, FABCOMP_SG2_TM_ID,CREATED_AT, UPDATED_AT FROM FABCOMP_TM_SUBGRUPO2 WHERE DELETED_AT IS NULL ';
         let ssql = `SELECT`
-        ssql += ` FIRST ${limit} SKIP ${skip} `
+        if (limit && skip >= 0) {
+            ssql += ` FIRST ${limit} SKIP ${skip}`
+        }
         ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         ssql += `
                 s.ID,

@@ -17,8 +17,8 @@ const Listar = (req, res) => {
     const cpf = req.query.cpf
     const apelido = req.query.apelido
     
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10);
+    const page = parseInt(req.query.page, 10);
     const skip = (page - 1) * limit;
 
     ServiceExtratores.Listar(idTipoPessoa, nome, cidade, fone1, fone, precoMedio, endereco, bairro, uf, cep, cxPostal, obs, rg, cpf, apelido, limit, skip)

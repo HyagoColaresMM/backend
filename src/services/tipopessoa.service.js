@@ -8,7 +8,9 @@ import {
 const Listar = (valor, descricao, limit, skip) => {
     return new Promise((resolve, reject) => {
         let ssql = 'SELECT';
-        ssql += ` FIRST ${limit} SKIP ${skip}`
+        if (limit && skip >= 0) {
+            ssql += ` FIRST ${limit} SKIP ${skip}`
+        }
         ssql += ` ROW_NUMBER() OVER (ORDER BY CREATED_AT ASC) AS CODIGO,`
         //ssql += ` COUNT(*) OVER () AS TOTAL_REGISTROS,`
         ssql += ' ID, VALOR, DESCRICAO FROM TIPO_PESSOA WHERE DELETED_AT IS NULL ';
